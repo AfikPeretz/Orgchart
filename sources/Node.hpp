@@ -15,6 +15,9 @@ namespace ariel{
         // Needed so these classes will be able to use the private fields above
         friend class OrgChart;
         friend class IteratorLevelOrder;
+        friend class IteratorLevelReverse;
+        friend class IteratorPreOrder;
+
 
         public:
             Node(string name, Node* parent) : name(name), parent(parent)
@@ -31,7 +34,6 @@ namespace ariel{
                     children.push_back(new Node(sub_name, this));
                     return true;
                 }
-
                 for (Node* c : children) {
                     if (c->add_sub(parent_name, sub_name)) {
                         return true;

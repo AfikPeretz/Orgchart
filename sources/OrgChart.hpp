@@ -10,13 +10,11 @@ using namespace std;
 
 
 namespace ariel{
-
-
     class OrgChart{
         Node* root;
 
         void print(std::ostream& os, Node* node) {
-            os << "[" << node->name;
+            os << node->name;
             if (!node->children.empty()) {
                 os << "->(";
                 bool first = true;
@@ -31,13 +29,10 @@ namespace ariel{
                 }
                 os << ")";
             }
-            os << "]";
         }
 
         public:
-            OrgChart() : root(nullptr)
-            {}
-
+            OrgChart() : root(nullptr){}
             ~OrgChart() {
                 if (root != nullptr) {
                     delete root;
@@ -51,11 +46,14 @@ namespace ariel{
                 else {
                     root = new Node(name, nullptr);
                 }
-
                 return *this;
             }
 
             OrgChart& add_sub(string parent, string name) {
+                if (root == nullptr) {
+                    throw std::exception();
+                }
+
                 if (!root->add_sub(parent, name)) {
                     throw std::exception();
                 }
@@ -76,30 +74,48 @@ namespace ariel{
             }
 
             IteratorLevelOrder begin_level_order() {
+                if (root == nullptr) throw std::exception();
                 return IteratorLevelOrder(root);
             }
 
             IteratorLevelOrder end_level_order() {
+                if (root == nullptr) throw std::exception();
                 return IteratorLevelOrder();
             }
 
-            string* begin_reverse_order() {
-                return NULL;
+            IteratorLevelReverse begin_reverse_order() {
+                if (root == nullptr) throw std::exception();
+                return IteratorLevelReverse(root);
             }
-            void* reverse_order() {
-                return NULL;
+
+            IteratorLevelReverse end_reverse_order() {
+                if (root == nullptr) throw std::exception();
+                return IteratorLevelReverse();
             }
-            string* begin_preorder() {
-                return NULL;
+
+            IteratorLevelReverse reverse_order() {
+                if (root == nullptr) throw std::exception();
+                return IteratorLevelReverse();
             }
-            void* end_preorder() {
-                return NULL;
+
+            IteratorPreOrder begin_preorder() {
+                if (root == nullptr) throw std::exception();
+		        return IteratorPreOrder(root);
+	        }
+
+            IteratorPreOrder end_preorder() {
+                if (root == nullptr) throw std::exception();
+                return IteratorPreOrder();
             }
-            int* begin() {
-                return NULL;
+
+
+            //for : operator, same order as levelorder
+            IteratorLevelOrder begin() {
+                return begin_level_order();
             }
-            int* end() {
-                return NULL;
+
+            IteratorLevelOrder end() {
+                return end_level_order();
             }
     };
 }
